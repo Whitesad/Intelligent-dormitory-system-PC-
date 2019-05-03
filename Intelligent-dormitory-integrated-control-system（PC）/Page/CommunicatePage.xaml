@@ -1,0 +1,36 @@
+﻿<Page
+    x:Class="Intelligent_dormitory_integrated_control_system_PC_.CommunicatePage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Intelligent_dormitory_integrated_control_system_PC_"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+
+    <RelativePanel >
+        <TextBlock RelativePanel.AlignTopWithPanel="True"
+            x:Name="TextReceiver"
+            FontSize="25"
+            Width="600" Height="200"
+            Text="sa"
+            TextWrapping="Wrap"
+            />
+        <RelativePanel RelativePanel.AlignBottomWithPanel="True">
+            <TextBox 
+            x:Name="TextSend"
+            Width="600" Height="100"
+            FontSize="30"
+            AcceptsReturn="True"
+            />
+        <Button Click="SendButton_Click"
+            Name="ButtonSend"
+            RelativePanel.Below="TextSend"
+            Width="200" Height="100"
+            Content="发送"
+            FontSize="20"
+            />
+        </RelativePanel>
+       
+    </RelativePanel>
+</Page>

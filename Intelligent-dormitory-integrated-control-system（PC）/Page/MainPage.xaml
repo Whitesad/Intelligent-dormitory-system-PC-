@@ -6,7 +6,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    >
 
     <RelativePanel>
         <RelativePanel AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
@@ -45,6 +46,7 @@
                     RelativePanel.RightOf="LoginButton"
                     Width="85" Height="35"
                     Margin="55,0,0,0"
+                    Click="RegisterButton_Click"
                 >
                     <TextBlock
                     Text="Register"

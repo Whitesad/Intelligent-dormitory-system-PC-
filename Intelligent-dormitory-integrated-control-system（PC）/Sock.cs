@@ -6,7 +6,17 @@ using System.Text;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace Sock
+using Windows.UI.Xaml;
+using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Controls.Primitives;
+using Windows.UI.Xaml.Data;
+using Windows.UI.Xaml.Input;
+using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Navigation;
+
+using Intelligent_dormitory_integrated_control_system_PC_;
+
+namespace SocketServer
 {
     using dict = Dictionary<String, String>;
 
@@ -96,6 +106,10 @@ namespace Sock
         private String local_ip, local_name;//本机IP、计算机名
         string userName, passWord;
 
+        public string UserInputText;
+        private bool isSending = false;
+        private TextBlock TextOutput;
+
         bool isConnect = false;
 
         public Sock(string userName, string passWord, String hostIp, int port)
@@ -103,7 +117,7 @@ namespace Sock
             this.userName = userName;
             this.passWord = passWord;
 
-            sockServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            this.sockServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             this.local_name = Dns.GetHostName();
             IPAddress[] iPAddresses = Dns.GetHostAddresses(Dns.GetHostName());
             foreach (IPAddress iP in iPAddresses)
@@ -119,7 +133,7 @@ namespace Sock
         }
         public Sock()
         {
-            sockServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            this.sockServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             this.local_name = Dns.GetHostName();
             IPAddress[] iPAddresses = Dns.GetHostAddresses(Dns.GetHostName());
             foreach (IPAddress iP in iPAddresses)
@@ -132,9 +146,26 @@ namespace Sock
             }
         }
 
+        public Sock(string hostIp, int port)
+        {
+            this.sockServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            this.local_name = Dns.GetHostName();
+            IPAddress[] iPAddresses = Dns.GetHostAddresses(Dns.GetHostName());
+            foreach (IPAddress iP in iPAddresses)
+            {
+                if (iP.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    this.local_ip = iP.ToString();
+                    break;
+                }
+            }
+            this.hostIp = hostIp;
+            this.port = port;
+        }
+
         public void SetHost(String hostIp, int port)
         {
-            sockServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+            this.sockServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
         public Status Register(String userName, String passWord)
         {
@@ -275,15 +306,22 @@ namespace Sock
             {
                 if (dict_dict.ContainsKey("content"))
                 {
-                    Console.WriteLine(dict_dict["localname"] + " " + dict_dict["username"] + " " + dict_dict["time"]);
-                    Console.WriteLine(dict_dict["content"]);
+                    string Out = "";
+                    Out += (dict_dict["localname"] + " " + dict_dict["username"] + " " + dict_dict["time"] + "\n");
+                    Out += (dict_dict["content"] + "\n");
+                    ToastController toast=new ToastController(Out);
+                    toast.Show();
+                    //this.TextOutput.Text += (dict_dict["localname"] + " " + dict_dict["username"] + " " + dict_dict["time"]+"\n");
+                    //this.TextOutput.Text += (dict_dict["content"]+"\n");
+
                 }
             }
         }
-        private static string GetUserInput()
+
+        public void SetTextOutput(TextBlock textOut)
         {
-            string userInput = Console.ReadLine();
-            return userInput;
+            this.TextOutput = textOut;
+            textOut.Text = "TextOut更改成功";
         }
 
         private void Thread_Listen()
@@ -313,14 +351,22 @@ namespace Sock
             Console.WriteLine("Listen error!");
         }
 
+        public void send()
+        {
+            this.isSending = true;
+        }
+
         private void Thread_Out()
         {
             while (true)
             {
                 try
                 {
-                    string userInput = Sock.GetUserInput();
-                    Send(DictMaker.MakeTextDict(this.userName, userInput, this.local_ip, this.local_name));
+                    if(isSending)
+                    {
+                        Send(DictMaker.MakeTextDict(this.userName, this.UserInputText, this.local_ip, this.local_name));
+                        isSending = false;
+                    }
                 }
                 catch
                 {
@@ -345,7 +391,6 @@ namespace Sock
 
         static void test()
         {
-
             //byte[] dict_bytes = new byte[2048];
             //dict_bytes = Encoding.UTF8.GetBytes("{\"type\":\"LOGIN_MES\"}");
             //string str = Encoding.UTF8.GetString(dict_bytes);
