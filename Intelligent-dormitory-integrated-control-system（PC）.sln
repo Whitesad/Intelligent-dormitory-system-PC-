@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intelligent-dormitory-integrated-control-system（PC）", "Intelligent-dormitory-integrated-control-system（PC）\Intelligent-dormitory-integrated-control-system（PC）.csproj", "{07AB7B7A-D7EE-474A-98DF-CE1279EA6ED5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Intelligent-dormitory-system（PC）", "Intelligent-dormitory-integrated-control-system（PC）\Intelligent-dormitory-system（PC）.csproj", "{07AB7B7A-D7EE-474A-98DF-CE1279EA6ED5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

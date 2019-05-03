@@ -13,39 +13,18 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
+// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
 namespace Intelligent_dormitory_integrated_control_system_PC_
 {
     /// <summary>
     /// 可用于自身或导航至 Frame 内部的空白页。
     /// </summary>
-    public sealed partial class MainPage : Page
+    public sealed partial class SecondPage : Page
     {
-        public MainPage()
+        public SecondPage()
         {
             this.InitializeComponent();
-        }
-        
-
-        private void Button_Click_1(object sender, RoutedEventArgs e)
-        {
-            Frame.Navigate(typeof(SecondPage));
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
-        }
-
-        private void CheckBoxTest_Checked(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-        private void CheckBoxTest_Unchecked(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

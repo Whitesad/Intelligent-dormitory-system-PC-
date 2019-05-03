@@ -6,9 +6,44 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="#404040">
 
-    <Grid>
-
-    </Grid>
+    <RelativePanel>
+        <TextBlock
+            FontFamily="Segoe MDL2 Assets"
+            Foreground="White"
+            Text="&#xE131;"
+            x:Name="text01"
+            FontSize="50"
+            FontWeight="Light"
+            TextWrapping="Wrap"
+            />
+        <TextBox
+            x:Name="TextBox"
+            Header="TextBox"
+            RelativePanel.Below="text01"
+            Width="200"
+            Height="50"
+            TextWrapping="NoWrap"
+            TextChanged="TextBox_TextChanged"
+            
+            />
+        <Button
+            x:Name="Button"
+            Width="100"
+            Height="50"
+            RelativePanel.Below="TextBox"
+            Content="Login"
+            FontSize="20"
+            Foreground="White"
+            />
+        <CheckBox
+            x:Name="CheckBoxTest"
+            Content="自动登录"
+            RelativePanel.Below="Button"
+            IsChecked="True"
+            Checked="CheckBoxTest_Checked"
+            Unchecked="CheckBoxTest_Unchecked"
+            />
+    </RelativePanel>
 </Page>
