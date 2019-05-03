@@ -6,44 +6,57 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
-    Background="#404040">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <RelativePanel>
-        <TextBlock
-            FontFamily="Segoe MDL2 Assets"
-            Foreground="White"
-            Text="&#xE131;"
-            x:Name="text01"
-            FontSize="50"
-            FontWeight="Light"
-            TextWrapping="Wrap"
-            />
-        <TextBox
-            x:Name="TextBox"
-            Header="TextBox"
-            RelativePanel.Below="text01"
-            Width="200"
-            Height="50"
-            TextWrapping="NoWrap"
-            TextChanged="TextBox_TextChanged"
+        <RelativePanel AlignHorizontalCenterWithPanel="True" RelativePanel.AlignVerticalCenterWithPanel="True">
+            <TextBlock
+                x:Name="UserImage"
+                FontFamily="Segoe MDL2 Assets" FontSize="200"
+                Text="&#xE13D;"
+                />
+            <TextBox
+                x:Name="UserNameTextBox"
+                RelativePanel.Below="UserImage" Margin="0,10,0,0"
+                Width="200" 
+                PlaceholderText="UserName:"
+                MaxLength="32"
+                />
+            <PasswordBox
+                x:Name="PassWordTextBox"
+                RelativePanel.Below="UserNameTextBox" Margin="0,10,0,0"
+                Width="200" 
+                PlaceholderText="PassWord:"
+                />
+
+            <RelativePanel RelativePanel.Below="PassWordTextBox" Margin="0,20,0,0">
+
+            <Button x:Name="LoginButton"
+                Width="60" Height="35"
+                Click="LoginButton_Click">
+                    <TextBlock
+                    Text="Login"
+                    Margin="-4.4,-2.4,-5.4,-2.2"
+                    FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                />
+            </Button>
             
-            />
-        <Button
-            x:Name="Button"
-            Width="100"
-            Height="50"
-            RelativePanel.Below="TextBox"
-            Content="Login"
-            FontSize="20"
-            Foreground="White"
-            />
-        <CheckBox
-            x:Name="CheckBoxTest"
-            Content="自动登录"
-            RelativePanel.Below="Button"
-            IsChecked="True"
-            Checked="CheckBoxTest_Checked"
-            Unchecked="CheckBoxTest_Unchecked"
-            />
+            <Button x:Name="RegisterButton"
+                    RelativePanel.RightOf="LoginButton"
+                    Width="85" Height="35"
+                    Margin="55,0,0,0"
+                >
+                    <TextBlock
+                    Text="Register"
+                    Margin="-4.4,-2.4,-5.4,-2.2"
+                    FontSize="20" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                />
+            </Button>
+
+
+            </RelativePanel>
+            
+            
+        </RelativePanel>
     </RelativePanel>
 </Page>

@@ -12,7 +12,10 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
+//个人引用
+using Windows.UI.Notifications;
+using Windows.Data.Xml.Dom;
+using Sock;
 // https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
 
 namespace Intelligent_dormitory_integrated_control_system_PC_
@@ -27,7 +30,6 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             this.InitializeComponent();
         }
         
-
         private void Button_Click_1(object sender, RoutedEventArgs e)
         {
             Frame.Navigate(typeof(SecondPage));
@@ -44,6 +46,18 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
         }
 
         private void CheckBoxTest_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void LoginButton_Click(object sender, RoutedEventArgs e)
+        {
+            string userName = UserNameTextBox.Text;
+            string passWord = PassWordTextBox.Password;
+
+        }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
 
         }
