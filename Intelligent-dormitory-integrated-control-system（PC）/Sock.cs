@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
 using Intelligent_dormitory_integrated_control_system_PC_;
+using System.Threading.Tasks;
 
 namespace SocketServer
 {
@@ -111,6 +112,7 @@ namespace SocketServer
         private TextBlock TextOutput;
 
         bool isConnect = false;
+        
 
         public Sock(string userName, string passWord, String hostIp, int port)
         {
@@ -294,10 +296,19 @@ namespace SocketServer
         }
         public void start()
         {
-            Thread thread_listen = new Thread(Thread_Listen);
+            Task thread_listen = new Task(Thread_Listen);
             thread_listen.Start();
-            Thread thread_out = new Thread(Thread_Out);
+            Task thread_out = new Task(Thread_Out);
             thread_out.Start();
+            //Thread thread_listen = new Thread(Thread_Listen);
+            //thread_listen.Start();
+            //Thread thread_out = new Thread(Thread_Out);
+            //thread_out.Start();
+        }
+
+        public async void Invoke(Action action, Windows.UI.Core.CoreDispatcherPriority Priority = Windows.UI.Core.CoreDispatcherPriority.Normal)
+        {
+            await Windows.ApplicationModel.Core.CoreApplication.MainView.CoreWindow.Dispatcher.RunAsync(Priority, () => { action(); });
         }
 
         private void Print(dict dict_dict)
@@ -309,8 +320,10 @@ namespace SocketServer
                     string Out = "";
                     Out += (dict_dict["localname"] + " " + dict_dict["username"] + " " + dict_dict["time"] + "\n");
                     Out += (dict_dict["content"] + "\n");
-                    ToastController toast=new ToastController(Out);
-                    toast.Show();
+                    this.Invoke(() =>
+                    {
+                        this.TextOutput.Text += Out;
+                    });
                     //this.TextOutput.Text += (dict_dict["localname"] + " " + dict_dict["username"] + " " + dict_dict["time"]+"\n");
                     //this.TextOutput.Text += (dict_dict["content"]+"\n");
 
@@ -321,7 +334,7 @@ namespace SocketServer
         public void SetTextOutput(TextBlock textOut)
         {
             this.TextOutput = textOut;
-            textOut.Text = "TextOut更改成功";
+            //textOut.Text = "TextOut更改成功";
         }
 
         private void Thread_Listen()
