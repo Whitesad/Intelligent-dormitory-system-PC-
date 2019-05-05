@@ -110,6 +110,7 @@ namespace SocketServer
         public string UserInputText;
         private bool isSending = false;
         private TextBlock TextOutput;
+        private ChatBoxTool _chat_box_tool;
 
         bool isConnect = false;
         
@@ -320,9 +321,10 @@ namespace SocketServer
                     string Out = "";
                     Out += (dict_dict["localname"] + " " + dict_dict["username"] + " " + dict_dict["time"] + "\n");
                     Out += (dict_dict["content"] + "\n");
+
                     this.Invoke(() =>
                     {
-                        this.TextOutput.Text += Out;
+                        this._chat_box_tool.Receive("http://www.jf258.com/uploads/2013-07-21/073810328.jpg", dict_dict["username"], dict_dict["content"], dict_dict["time"]);
                     });
                     //this.TextOutput.Text += (dict_dict["localname"] + " " + dict_dict["username"] + " " + dict_dict["time"]+"\n");
                     //this.TextOutput.Text += (dict_dict["content"]+"\n");
@@ -335,6 +337,10 @@ namespace SocketServer
         {
             this.TextOutput = textOut;
             //textOut.Text = "TextOut更改成功";
+        }
+        public void SetTextOutput(WebView ChatBox)
+        {
+            _chat_box_tool = new ChatBoxTool(ChatBox);
         }
 
         private void Thread_Listen()

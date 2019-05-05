@@ -8,30 +8,33 @@
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <RelativePanel >
-        <TextBlock RelativePanel.AlignTopWithPanel="True"
-            x:Name="TextReceiver"
-            FontSize="10"
-            Width="600"
-            Text=""
-            TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="0,0,0,-322" VerticalAlignment="Stretch"
-            />
-        <RelativePanel RelativePanel.AlignBottomWithPanel="True">
-            <TextBox 
-            x:Name="TextSend"
-            Width="600" Height="100"
-            FontSize="30"
-            AcceptsReturn="True"
-            MaxLength="400"
-            />
-            <Button Click="SendButton_Click"
-            Name="ButtonSend"
-            RelativePanel.Below="TextSend"
-            Width="200" Height="100"
-            Content="发送"
-            FontSize="20"
-            />
-        </RelativePanel>
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto">
+            </RowDefinition>
+            <RowDefinition Height="*">
+            </RowDefinition>
+        </Grid.RowDefinitions>
+        <!--第一行-->
+        <WebView Grid.Row="0"
+                 Name="ChatBox" HorizontalAlignment="Stretch" Margin="0,0,0,243.4" VerticalAlignment="Stretch">
+        </WebView>
+        <!--第二行-->
+        <Grid Margin="0,300,0,0" VerticalAlignment="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*">
+                </ColumnDefinition>
+            </Grid.ColumnDefinitions>
 
-    </RelativePanel>
+            <StackPanel Grid.Column="1" Padding="10" VerticalAlignment="Bottom">
+                <TextBox Name="TextSend"
+                         Margin="4.6,0,5.4,0" Height="114" HorizontalAlignment="Stretch"/>
+                <Button Content="发送！"
+                        FontSize="40"
+                        HorizontalAlignment="Left"
+                        Click="SendButton_Click" Height="109" VerticalAlignment="Center" Width="168"/>
+            </StackPanel>
+        </Grid>
+
+    </Grid>
 </Page>

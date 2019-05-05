@@ -25,23 +25,28 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
     public sealed partial class CommunicatePage : Page
     {
         Sock sock;
+        ChatBoxTool _chat_box_tool;
+
         public CommunicatePage()
         {
             this.InitializeComponent();
+            _chat_box_tool = new ChatBoxTool(ChatBox);
+            //ChatBox.ScriptNotify += ChatBox_ScriptNotify; //js 与 C#通信
         }
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
             sock.UserInputText = TextSend.Text;
-            TextSend.Text = "";
             sock.send();
-
+            _chat_box_tool.Send("http://www.jf258.com/uploads/2013-07-21/073810328.jpg", "whitesad", TextSend.Text, DateTime.Now.ToString());
+            TextSend.Text = "";
         }
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            //这个e.Parameter是获取传递过来的参数，其实大家应该再次之前判断这个参数是否为null的，我偷懒了
+            //这个e.Parameter是获取传递过来的参数，应该再次之前判断这个参数是否为null的，我偷懒了
             this.sock = (Sock)e.Parameter;
-            sock.SetTextOutput(TextReceiver);
+            //sock.SetTextOutput(TextReceiver);
+            sock.SetTextOutput(ChatBox);
             sock.start();
         }
     }
