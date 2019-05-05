@@ -27,11 +27,29 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
         private bool isInitialed = false;
 
         private const int port = 50000;
-        string testHost = "";
+        private string testHost = "10.1.139.101";
 
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private void InitialHost()
+        {
+            return;
+            ToastController toastController;
+
+            IPAddress[] iPAddresses = Dns.GetHostAddresses(Dns.GetHostName());
+            foreach (IPAddress iP in iPAddresses)
+            {
+                if (iP.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    testHost = iP.ToString();
+                    break;
+                }
+            }
+            toastController = new ToastController("TestHost:" + testHost);
+            toastController.Show();
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -42,17 +60,7 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
 
             if (!isInitialed)
             {
-                IPAddress[] iPAddresses = Dns.GetHostAddresses(Dns.GetHostName());
-                foreach (IPAddress iP in iPAddresses)
-                {
-                    if (iP.AddressFamily == AddressFamily.InterNetwork)
-                    {
-                        testHost = iP.ToString();
-                        break;
-                    }
-                }
-                toastController = new ToastController("TestHost:" + testHost);
-                toastController.Show();
+                InitialHost();
                 isInitialed = true;
             }
             Sock sock = new Sock(userName, passWord, testHost, port);
@@ -79,20 +87,9 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            ToastController toastController;
             if (!isInitialed)
             {
-                IPAddress[] iPAddresses = Dns.GetHostAddresses(Dns.GetHostName());
-                foreach (IPAddress iP in iPAddresses)
-                {
-                    if (iP.AddressFamily == AddressFamily.InterNetwork)
-                    {
-                        testHost = iP.ToString();
-                        break;
-                    }
-                }
-                toastController = new ToastController("TestHost:" + testHost);
-                toastController.Show();
+                InitialHost();
                 isInitialed = true;
             }
             Sock sock = new Sock(testHost, port);

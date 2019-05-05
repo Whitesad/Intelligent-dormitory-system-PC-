@@ -11,10 +11,10 @@
     <RelativePanel >
         <TextBlock RelativePanel.AlignTopWithPanel="True"
             x:Name="TextReceiver"
-            FontSize="25"
-            Width="600" Height="200"
-            Text="sa"
-            TextWrapping="Wrap"
+            FontSize="10"
+            Width="600"
+            Text=""
+            TextWrapping="Wrap" HorizontalAlignment="Stretch" Margin="0,0,0,-322" VerticalAlignment="Stretch"
             />
         <RelativePanel RelativePanel.AlignBottomWithPanel="True">
             <TextBox 
@@ -22,8 +22,9 @@
             Width="600" Height="100"
             FontSize="30"
             AcceptsReturn="True"
+            MaxLength="400"
             />
-        <Button Click="SendButton_Click"
+            <Button Click="SendButton_Click"
             Name="ButtonSend"
             RelativePanel.Below="TextSend"
             Width="200" Height="100"
@@ -31,6 +32,6 @@
             FontSize="20"
             />
         </RelativePanel>
-       
+
     </RelativePanel>
 </Page>

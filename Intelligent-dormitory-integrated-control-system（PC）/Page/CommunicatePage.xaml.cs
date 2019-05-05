@@ -32,6 +32,7 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
             sock.UserInputText = TextSend.Text;
+            TextSend.Text = "";
             sock.send();
 
         }
@@ -40,7 +41,6 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             base.OnNavigatedTo(e);
             //这个e.Parameter是获取传递过来的参数，其实大家应该再次之前判断这个参数是否为null的，我偷懒了
             this.sock = (Sock)e.Parameter;
-            this.TextSend.Text = "";
             sock.SetTextOutput(TextReceiver);
             sock.start();
         }
