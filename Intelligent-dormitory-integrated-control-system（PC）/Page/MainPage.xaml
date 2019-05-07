@@ -19,12 +19,14 @@
             <TextBox
                 x:Name="UserNameTextBox"
                 RelativePanel.Below="UserImage" Margin="0,10,0,0"
+                Text="whitesad"
                 Width="200" 
                 PlaceholderText="UserName:"
                 MaxLength="32"
                 />
             <PasswordBox
                 x:Name="PassWordTextBox"
+                Password="yang"
                 RelativePanel.Below="UserNameTextBox" Margin="0,10,0,0"
                 Width="200" 
                 PlaceholderText="PassWord:"

@@ -14,6 +14,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SocketServer;
+using System.Text.RegularExpressions;
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
 namespace Intelligent_dormitory_integrated_control_system_PC_
@@ -48,6 +49,28 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             //sock.SetTextOutput(TextReceiver);
             sock.SetTextOutput(ChatBox);
             sock.start();
+        }
+
+        /// <summary>         
+        /// 获取Img的路径         
+        /// </summary>         
+        /// <param name="htmlText">Html字符串文本</param>        
+        /// <returns>以数组形式返回图片路径</returns>        
+        private static string[] GetHtmlImageUrlList(string htmlText)
+        {
+            Regex regImg = new Regex(@"((http|ftp|https)://)(([a-zA-Z0-9\._-]+\.[a-zA-Z]{2,6})|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,4})*(/[a-zA-Z0-9\&%_\./-~-]*)?", RegexOptions.IgnoreCase);
+            //新建一个matches的MatchCollection对象 保存 匹配对象个数(img标签) 
+            MatchCollection matches = regImg.Matches(htmlText);
+            int i = 0;
+            string[] sUrlList = new string[matches.Count];
+            //遍历所有的img标签对象            
+            foreach (Match match in matches)
+            {
+                //获取所有Img的路径src,并保存到数组中 
+                sUrlList[i++] = match.ToString();
+                //sUrlList[i++] = match.Groups[i].Value;
+            }
+            return sUrlList;
         }
     }
 }

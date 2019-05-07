@@ -76,6 +76,7 @@ namespace SocketServer
             //Console.WriteLine(dict_str);
             return Encoding.UTF8.GetBytes(dict_str);
         }
+
         public dict MakeDict(byte[] dict_bytes)
         {
             string str = Encoding.UTF8.GetString(dict_bytes);
@@ -190,39 +191,35 @@ namespace SocketServer
             dict RegisterDict = DictMaker.MakeRegisterDict(userName, passWord, local_ip, local_name);
             byte[] dict_bytes = new byte[2048];
             dict dict_dict = new dict();
-            for (int i = 1; i <= 10; i++)
+            try
             {
                 Send(RegisterDict);
-                Console.WriteLine("尝试连接服务器中，尝试次数:" + i.ToString());
-                for (int j = 0; j < 10; j++)
+                //Console.WriteLine("尝试连接服务器中，尝试次数:" + i.ToString());
+                sockServer.Receive(dict_bytes);
+                dict_dict = DictMaker.MakeDict(dict_bytes);
+                if (dict_dict["type"] == "REGISTER_MES")
                 {
-                    try
+                    if (dict_dict["status"] == "AC")
+                        return Status.REGISTER_AC;
+                    else if (dict_dict["status"] == "SAME_NAME")
                     {
-                        sockServer.Receive(dict_bytes);
-                        dict_dict = DictMaker.MakeDict(dict_bytes);
-                        if (dict_dict["type"] == "REGISTER_MES")
-                        {
-                            if (dict_dict["status"] == "AC")
-                                return Status.REGISTER_AC;
-                            else if (dict_dict["status"] == "SAME_NAME")
-                            {
-                                return Status.SAME_NAME;
-                            }
-                            else if (dict_dict["status"] == "REGISTER_ERROR")
-                            {
-                                return Status.REGISTER_ERROR;
-                            }
-                        }
-                        Thread.Sleep(10);
+                        return Status.SAME_NAME;
                     }
-                    catch
+                    else if (dict_dict["status"] == "REGISTER_ERROR")
                     {
-                        sockServer.Close();
-                        isConnect = false;
-                        return Status.CONNECT_ERROR;
+                        return Status.REGISTER_ERROR;
                     }
                 }
+                Thread.Sleep(10);
             }
+            catch
+            {
+                sockServer.Close();
+                isConnect = false;
+                return Status.CONNECT_ERROR;
+            }
+            
+            
             return Status.CONNECT_ERROR;
         }
 
@@ -248,39 +245,36 @@ namespace SocketServer
             dict LoginDict = DictMaker.MakeLoginDict(userName, passWord, local_ip, local_name);
             byte[] dict_bytes = new byte[2048];
             dict dict_dict = new dict();
-            for (int i = 1; i <= 10; i++)
+            
+                
+            try
             {
                 Send(LoginDict);
-                Console.WriteLine("尝试连接服务器中，尝试次数:" + i.ToString());
-                for (int j = 0; j < 10; j++)
+                sockServer.Receive(dict_bytes);
+                dict_dict = DictMaker.MakeDict(dict_bytes);
+                if (dict_dict["type"] == "LOGIN_MES")
                 {
-                    try
+                    if (dict_dict["status"] == "AC")
+                        return Status.LOGIN_AC;
+                    else if (dict_dict["status"] == "NO_MEMSHIP")
                     {
-                        sockServer.Receive(dict_bytes);
-                        dict_dict = DictMaker.MakeDict(dict_bytes);
-                        if (dict_dict["type"] == "LOGIN_MES")
-                        {
-                            if (dict_dict["status"] == "AC")
-                                return Status.LOGIN_AC;
-                            else if (dict_dict["status"] == "NO_MEMSHIP")
-                            {
-                                return Status.NO_MEMSHIP;
-                            }
-                            else if (dict_dict["status"] == "WRONG_PASSWORD")
-                            {
-                                return Status.WRONG_PASSWORD;
-                            }
-                        }
-                        Thread.Sleep(10);
+                        return Status.NO_MEMSHIP;
                     }
-                    catch
+                    else if (dict_dict["status"] == "WRONG_PASSWORD")
                     {
-                        sockServer.Close();
-                        isConnect = false;
-                        return Status.CONNECT_ERROR;
+                        return Status.WRONG_PASSWORD;
                     }
                 }
+                Thread.Sleep(10);
             }
+            catch
+            {
+                sockServer.Close();
+                isConnect = false;
+                return Status.CONNECT_ERROR;
+            }
+                
+            
             return Status.CONNECT_ERROR;
         }
         private void Send(dict dict_dict)
@@ -360,6 +354,7 @@ namespace SocketServer
                 }
                 catch
                 {
+                    sockServer.Close();
                     Thread_Listen_Debug();//打印BUG
                 }
             }
@@ -389,6 +384,7 @@ namespace SocketServer
                 }
                 catch
                 {
+                    
                     Thread_Out_Debug();
                 }
             }
