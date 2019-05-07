@@ -48,6 +48,11 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
                 toast = new ToastController("PassWord is not exactly the same!");
                 toast.Show();
             }
+            else if(passWord01.Length>=32)
+            {
+                toast = new ToastController("PassWord is too long!");
+                toast.Show();
+            }
             else
             {
                 Status status = sock.Register(userName, passWord01);

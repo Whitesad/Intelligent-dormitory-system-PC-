@@ -15,7 +15,6 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SocketServer;
 using System.Text.RegularExpressions;
-// https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
 namespace Intelligent_dormitory_integrated_control_system_PC_
 {
