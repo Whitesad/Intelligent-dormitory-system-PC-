@@ -170,19 +170,25 @@ namespace SocketServer
         {
             this.sockServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
         }
+        private void Toast(string text)
+        {
+            ToastController toast=new ToastController(text);
+            this.Invoke(() =>
+            {
+                toast.Show();
+            });
+        }
         public Status Register(String userName, String passWord)
         {
             try
             {
-                if (!isConnect)
-                {
-                    sockServer.Connect(hostIp, port);
-                    isConnect = true;
-                }
+                sockServer.Connect(hostIp, port);
+                Toast("Successfully Connect the Server:\n" + this.hostIp);
             }
             catch
             {
-                Console.WriteLine("Server Connect Error!");
+                sockServer.Close();
+                Toast("Server Connect Failure!");
                 return Status.CONNECT_ERROR;
             }
 
@@ -190,38 +196,36 @@ namespace SocketServer
             dict RegisterDict = DictMaker.MakeRegisterDict(userName, passWord, local_ip, local_name);
             byte[] dict_bytes = new byte[2048];
             dict dict_dict = new dict();
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 200; i++)
             {
+                
                 Send(RegisterDict);
-                Console.WriteLine("尝试连接服务器中，尝试次数:" + i.ToString());
-                for (int j = 0; j < 10; j++)
+                try
                 {
-                    try
+                    sockServer.Receive(dict_bytes);
+                    dict_dict = DictMaker.MakeDict(dict_bytes);
+                    if (dict_dict["type"] == "REGISTER_MES")
                     {
-                        sockServer.Receive(dict_bytes);
-                        dict_dict = DictMaker.MakeDict(dict_bytes);
-                        if (dict_dict["type"] == "REGISTER_MES")
+                        if (dict_dict["status"] == "AC")
+                            return Status.REGISTER_AC;
+                        else if (dict_dict["status"] == "SAME_NAME")
                         {
-                            if (dict_dict["status"] == "AC")
-                                return Status.REGISTER_AC;
-                            else if (dict_dict["status"] == "SAME_NAME")
-                            {
-                                return Status.SAME_NAME;
-                            }
-                            else if (dict_dict["status"] == "REGISTER_ERROR")
-                            {
-                                return Status.REGISTER_ERROR;
-                            }
+                            return Status.SAME_NAME;
                         }
-                        Thread.Sleep(10);
+                        else if (dict_dict["status"] == "REGISTER_ERROR")
+                        {
+                            return Status.REGISTER_ERROR;
+                        }
                     }
-                    catch
-                    {
-                        sockServer.Close();
-                        isConnect = false;
-                        return Status.CONNECT_ERROR;
-                    }
+                    Thread.Sleep(5);
                 }
+                catch
+                {
+                    sockServer.Close();
+                    Toast("Server Connect Error!");
+                    return Status.CONNECT_ERROR;
+                }
+                
             }
             return Status.CONNECT_ERROR;
         }
@@ -232,55 +236,51 @@ namespace SocketServer
             this.passWord = passWord;
             try
             {
-                if (!isConnect)
-                {
-                    sockServer.Connect(hostIp, port);
-                    isConnect = true;
-                }
+                sockServer.Connect(hostIp, port);
+                Toast("Successfully Connect the Server:\n" + this.hostIp);
             }
             catch
             {
-                Console.WriteLine("Server Connect Error!");
+                sockServer.Close();
+                Toast("Server Connect Failure!");
                 return Status.CONNECT_ERROR;
             }
             
-
             dict LoginDict = DictMaker.MakeLoginDict(userName, passWord, local_ip, local_name);
             byte[] dict_bytes = new byte[2048];
             dict dict_dict = new dict();
-            for (int i = 1; i <= 10; i++)
+            for (int i = 1; i <= 200; i++)
             {
-                Send(LoginDict);
-                Console.WriteLine("尝试连接服务器中，尝试次数:" + i.ToString());
-                for (int j = 0; j < 10; j++)
+                try
                 {
-                    try
+                    Send(LoginDict);
+                    sockServer.Receive(dict_bytes);
+                    dict_dict = DictMaker.MakeDict(dict_bytes);
+                    if (dict_dict["type"] == "LOGIN_MES")
                     {
-                        sockServer.Receive(dict_bytes);
-                        dict_dict = DictMaker.MakeDict(dict_bytes);
-                        if (dict_dict["type"] == "LOGIN_MES")
+                        if (dict_dict["status"] == "AC")
+                            return Status.LOGIN_AC;
+                        else if (dict_dict["status"] == "NO_MEMSHIP")
                         {
-                            if (dict_dict["status"] == "AC")
-                                return Status.LOGIN_AC;
-                            else if (dict_dict["status"] == "NO_MEMSHIP")
-                            {
-                                return Status.NO_MEMSHIP;
-                            }
-                            else if (dict_dict["status"] == "WRONG_PASSWORD")
-                            {
-                                return Status.WRONG_PASSWORD;
-                            }
+                            return Status.NO_MEMSHIP;
                         }
-                        Thread.Sleep(10);
+                        else if (dict_dict["status"] == "WRONG_PASSWORD")
+                        {
+                            return Status.WRONG_PASSWORD;
+                        }
                     }
-                    catch
-                    {
-                        sockServer.Close();
-                        isConnect = false;
-                        return Status.CONNECT_ERROR;
-                    }
+                    Thread.Sleep(5);
                 }
+                catch
+                {
+                    sockServer.Close();
+                    Toast("Server Connect Error!");
+                    return Status.CONNECT_ERROR;
+
+                }
+                
             }
+            
             return Status.CONNECT_ERROR;
         }
         private void Send(dict dict_dict)

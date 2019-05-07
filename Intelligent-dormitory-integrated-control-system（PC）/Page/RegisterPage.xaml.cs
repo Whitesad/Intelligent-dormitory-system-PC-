@@ -13,6 +13,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SocketServer;
+using System.Text.RegularExpressions;
 
 // https://go.microsoft.com/fwlink/?LinkId=234238 上介绍了“空白页”项模板
 
@@ -43,14 +44,28 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             string userName = RegisterUserNameTextBox.Text;
             string passWord01 = RegisterPassWordTextBox01.Password;
             string passWord02 = RegisterPassWordTextBox02.Password;
+
+            Regex regExp = new Regex("[ \\[ \\] \\^ \\-_*×――(^)$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]");
+            bool isIllegal=regExp.IsMatch(passWord01);
+
             if (passWord01 != passWord02)
             {
                 toast = new ToastController("PassWord is not exactly the same!");
                 toast.Show();
             }
-            else if(passWord01.Length>=32)
+            else if(passWord01.Length>=32||passWord01.Length<=8)
             {
-                toast = new ToastController("PassWord is too long!");
+                toast = new ToastController("PassWord must be longer than 8 letters and less than 32 letters!");
+                toast.Show();
+            }
+            else if(passWord01.Contains(' ')||passWord01==string.Empty)
+            {
+                toast = new ToastController("PassWord must be without space!");
+                toast.Show();
+            }
+            else if(isIllegal)
+            {
+                toast = new ToastController("PassWord can't contains the illegal character!");
                 toast.Show();
             }
             else
