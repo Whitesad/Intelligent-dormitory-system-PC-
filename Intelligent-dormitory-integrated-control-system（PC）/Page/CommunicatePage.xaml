@@ -28,7 +28,9 @@
 
             <StackPanel Grid.Column="1" Padding="10" VerticalAlignment="Bottom">
                 <TextBox Name="TextSend"
-                         Margin="4.6,0,5.4,0" Height="114" HorizontalAlignment="Stretch"/>
+                         Margin="4.6,0,5.4,0" Height="114" HorizontalAlignment="Stretch"
+                         KeyDown="TextSend_KeyDown"
+                         />
                 <Button Content="发送！"
                         FontSize="40"
                         HorizontalAlignment="Left"

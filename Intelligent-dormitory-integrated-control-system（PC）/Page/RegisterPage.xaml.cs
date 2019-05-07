@@ -45,25 +45,30 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             string passWord01 = RegisterPassWordTextBox01.Password;
             string passWord02 = RegisterPassWordTextBox02.Password;
 
-            Regex regExp = new Regex("[ \\[ \\] \\^ \\-_*×――(^)$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]");
-            bool isIllegal=regExp.IsMatch(passWord01);
-
+            Regex regExp = new Regex("[ \\[ \\] \\^ \\-_×――(^)$%~!@#$…&%￥—+=<>《》!！??？:：•`·、。，；,.;\"‘’“”-]");
+            bool isPassWordIllegal=regExp.IsMatch(passWord01);
+            bool isUserNameIllegal= regExp.IsMatch(userName);
             if (passWord01 != passWord02)
             {
                 toast = new ToastController("PassWord is not exactly the same!");
                 toast.Show();
             }
-            else if(passWord01.Length>=32||passWord01.Length<=8)
+            else if(passWord01.Length>=32||passWord01.Length<=4)
             {
-                toast = new ToastController("PassWord must be longer than 8 letters and less than 32 letters!");
+                toast = new ToastController("PassWord must be longer than 4 letters and less than 32 letters!");
                 toast.Show();
             }
-            else if(passWord01.Contains(' ')||passWord01==string.Empty)
+            else if(userName.Contains(" ")||isUserNameIllegal)
+            {
+                toast = new ToastController("UserName must be without Illegal Character and contains no space!");
+                toast.Show();
+            }
+            else if(passWord01 == string.Empty)
             {
                 toast = new ToastController("PassWord must be without space!");
                 toast.Show();
             }
-            else if(isIllegal)
+            else if(isPassWordIllegal)
             {
                 toast = new ToastController("PassWord can't contains the illegal character!");
                 toast.Show();

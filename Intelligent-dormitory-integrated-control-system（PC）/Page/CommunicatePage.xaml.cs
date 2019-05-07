@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SocketServer;
 using System.Text.RegularExpressions;
+using Windows.UI.Core;
 
 namespace Intelligent_dormitory_integrated_control_system_PC_
 {
@@ -35,9 +36,11 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
         }
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
+            if (TextSend.Text == string.Empty)
+                return;
             sock.UserInputText = TextSend.Text;
             sock.send();
-            _chat_box_tool.Send("http://www.jf258.com/uploads/2013-07-21/073810328.jpg", "whitesad", TextSend.Text, DateTime.Now.ToString());
+            _chat_box_tool.Send("http://www.jf258.com/uploads/2013-07-21/073810328.jpg", sock.getuserName(), TextSend.Text, DateTime.Now.ToString());
             TextSend.Text = "";
         }
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -70,6 +73,14 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
                 //sUrlList[i++] = match.Groups[i].Value;
             }
             return sUrlList;
+        }
+
+        private void TextSend_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if(e.Key== Windows.System.VirtualKey.Enter)
+            {
+                SendButton_Click(TextSend, e);
+            }
         }
     }
 }

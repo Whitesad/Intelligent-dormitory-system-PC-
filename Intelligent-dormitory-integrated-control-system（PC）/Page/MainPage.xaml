@@ -23,6 +23,7 @@
                 Width="200" 
                 PlaceholderText="UserName:"
                 MaxLength="32"
+                KeyDown="LoginBox_KeyDown"
                 />
             <PasswordBox
                 x:Name="PassWordTextBox"
@@ -30,6 +31,8 @@
                 RelativePanel.Below="UserNameTextBox" Margin="0,10,0,0"
                 Width="200" 
                 PlaceholderText="PassWord:"
+                KeyDown="LoginBox_KeyDown"
+
                 />
 
             <RelativePanel RelativePanel.Below="PassWordTextBox" Margin="0,20,0,0">

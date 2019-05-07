@@ -105,7 +105,7 @@ namespace SocketServer
         private Dict DictMaker = new Dict();//字典创造工具
 
         private String local_ip, local_name;//本机IP、计算机名
-        string userName, passWord;
+        private string userName, passWord;
 
         public string UserInputText;
         private bool isSending = false;
@@ -114,7 +114,10 @@ namespace SocketServer
 
         bool isConnect = false;
 
-
+        public string getuserName()
+        {
+            return this.userName;
+        }
         public Sock(string userName, string passWord, String hostIp, int port)
         {
             this.userName = userName;

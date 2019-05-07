@@ -37,7 +37,6 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
 
         private void InitialHost()
         {
-            return;
             ToastController toastController;
 
             IPAddress[] iPAddresses = Dns.GetHostAddresses(Dns.GetHostName());
@@ -51,6 +50,7 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             }
             toastController = new ToastController("TestHost:" + testHost);
             toastController.Show();
+            return;
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -97,6 +97,14 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
 
             Frame root = Window.Current.Content as Frame;
             root.Navigate(typeof(RegisterPage),sock);
+        }
+        
+        private void LoginBox_KeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if(e.Key==Windows.System.VirtualKey.Enter)
+            {
+                LoginButton_Click(sender, e);
+            }
         }
     }
 }
