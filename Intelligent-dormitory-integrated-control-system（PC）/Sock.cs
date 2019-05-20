@@ -83,6 +83,12 @@ namespace SocketServer
             dict dict_dict = JsonConvert.DeserializeObject<dict>(Encoding.UTF8.GetString(dict_bytes));
             return dict_dict;
         }
+        public dict MakeDict(string str)
+        {
+            //Console.WriteLine("get dict:" + str);
+            dict dict_dict = JsonConvert.DeserializeObject<dict>(str);
+            return dict_dict;
+        }
     }
 
     enum Status

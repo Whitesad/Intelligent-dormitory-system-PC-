@@ -10,33 +10,30 @@
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="auto">
+            <RowDefinition Height="2*">
             </RowDefinition>
-            <RowDefinition Height="*">
+            <RowDefinition Height="1*">
             </RowDefinition>
         </Grid.RowDefinitions>
         <!--第一行-->
         <WebView Grid.Row="0"
-                 Name="ChatBox" HorizontalAlignment="Stretch" Margin="0,0,0,243.4" VerticalAlignment="Stretch">
+                 Name="ChatBox" HorizontalAlignment="Stretch" Margin="0,0,0,10" VerticalAlignment="Stretch">
         </WebView>
         <!--第二行-->
-        <Grid Margin="0,300,0,0" VerticalAlignment="Bottom">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*">
-                </ColumnDefinition>
-            </Grid.ColumnDefinitions>
 
-            <StackPanel Grid.Column="1" Padding="10" VerticalAlignment="Bottom">
-                <TextBox Name="TextSend"
-                         Margin="4.6,0,5.4,0" Height="114" HorizontalAlignment="Stretch"
-                         KeyDown="TextSend_KeyDown"
-                         />
-                <Button Content="发送！"
-                        FontSize="40"
-                        HorizontalAlignment="Left"
-                        Click="SendButton_Click" Height="109" VerticalAlignment="Center" Width="168"/>
-            </StackPanel>
-        </Grid>
+        <StackPanel Grid.Row="1" Padding="10" VerticalAlignment="Bottom">
+            <TextBox Name="TextSend"
+                     Margin="0,0,5.4,0" Height="114" HorizontalAlignment="Stretch"
+                     KeyDown="TextSend_KeyDown"
+                        />
+            <Button Content="发送！"
+                    Background="LightBlue"
+                    FontSize="20"
+                    HorizontalAlignment="Left"
+                    Margin="0,5,0,0"
+                    Click="SendButton_Click" VerticalAlignment="Center" Height="auto"  Width="auto"/>
+        </StackPanel>
+        
 
     </Grid>
 </Page>

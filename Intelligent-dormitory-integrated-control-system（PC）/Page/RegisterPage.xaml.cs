@@ -58,7 +58,7 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
                 toast = new ToastController("PassWord must be longer than 4 letters and less than 32 letters!");
                 toast.Show();
             }
-            else if(userName.Contains(" ")||isUserNameIllegal)
+            else if(userName.Contains(" ")||isUserNameIllegal||userName=="")
             {
                 toast = new ToastController("UserName must be without Illegal Character and contains no space!");
                 toast.Show();
