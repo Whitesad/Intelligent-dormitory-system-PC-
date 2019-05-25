@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using SocketServer;
 using System.Net;
 using System.Net.Sockets;
+using FtpExplorer;
 
 namespace Intelligent_dormitory_integrated_control_system_PC_
 {
@@ -37,6 +38,7 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
 
         private void InitialHost()
         {
+            return;
             ToastController toastController;
 
             IPAddress[] iPAddresses = Dns.GetHostAddresses(Dns.GetHostName());
@@ -50,7 +52,6 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             }
             toastController = new ToastController("TestHost:" + testHost);
             toastController.Show();
-            return;
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -71,6 +72,7 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             {
                 Frame root = Window.Current.Content as Frame;
                 root.Navigate(typeof(CommunicatePage),sock);
+                
                 //sock.start();
             }
             else if (status == Status.WRONG_PASSWORD)

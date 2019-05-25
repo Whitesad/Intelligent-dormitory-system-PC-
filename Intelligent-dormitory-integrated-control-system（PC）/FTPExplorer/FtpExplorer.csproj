@@ -4,26 +4,24 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProjectGuid>{07AB7B7A-D7EE-474A-98DF-CE1279EA6ED5}</ProjectGuid>
+    <ProjectGuid>{1B51E8B4-F47F-4513-8A30-03289F38FCC0}</ProjectGuid>
     <OutputType>AppContainerExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Intelligent_dormitory_integrated_control_system_PC_</RootNamespace>
-    <AssemblyName>Intelligent-dormitory-integrated-control-system（PC）</AssemblyName>
+    <RootNamespace>FtpExplorer</RootNamespace>
+    <AssemblyName>FtpExplorer</AssemblyName>
     <DefaultLanguage>zh-CN</DefaultLanguage>
     <TargetPlatformIdentifier>UAP</TargetPlatformIdentifier>
-    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17134.0</TargetPlatformVersion>
+    <TargetPlatformVersion Condition=" '$(TargetPlatformVersion)' == '' ">10.0.17763.0</TargetPlatformVersion>
     <TargetPlatformMinVersion>10.0.16299.0</TargetPlatformMinVersion>
     <MinimumVisualStudioVersion>14</MinimumVisualStudioVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
-    <PackageCertificateKeyFile>Intelligent-dormitory-integrated-control-system（PC）_TemporaryKey.pfx</PackageCertificateKeyFile>
-    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
-    <AppxAutoIncrementPackageRevision>True</AppxAutoIncrementPackageRevision>
+    <PackageCertificateKeyFile>FtpExplorer_StoreKey.pfx</PackageCertificateKeyFile>
+    <PackageCertificateThumbprint>019CE96C99D4A7C3103110BF0E51762BCD5E61C6</PackageCertificateThumbprint>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
     <AppxBundle>Always</AppxBundle>
     <AppxBundlePlatforms>x86|x64|arm</AppxBundlePlatforms>
-    <AppInstallerUpdateFrequency>1</AppInstallerUpdateFrequency>
-    <AppInstallerCheckForUpdateFrequency>OnApplicationRun</AppInstallerCheckForUpdateFrequency>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -71,30 +69,6 @@
     <Prefer32Bit>true</Prefer32Bit>
     <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|ARM64'">
-    <DebugSymbols>true</DebugSymbols>
-    <OutputPath>bin\ARM64\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>full</DebugType>
-    <PlatformTarget>ARM64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|ARM64'">
-    <OutputPath>bin\ARM64\Release\</OutputPath>
-    <DefineConstants>TRACE;NETFX_CORE;WINDOWS_UWP</DefineConstants>
-    <Optimize>true</Optimize>
-    <NoWarn>;2008</NoWarn>
-    <DebugType>pdbonly</DebugType>
-    <PlatformTarget>ARM64</PlatformTarget>
-    <UseVSHostingProcess>false</UseVSHostingProcess>
-    <ErrorReport>prompt</ErrorReport>
-    <Prefer32Bit>true</Prefer32Bit>
-    <UseDotNetNativeToolchain>true</UseDotNetNativeToolchain>
-  </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
     <OutputPath>bin\x64\Debug\</OutputPath>
@@ -125,49 +99,32 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ChatBoxTool.cs" />
-    <Compile Include="FTPExplorer\DialogContentWithTextBox.xaml.cs">
+    <Compile Include="MainPage.AddressBar.cs" />
+    <Compile Include="DialogContentWithTextBox.xaml.cs">
       <DependentUpon>DialogContentWithTextBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="FTPExplorer\FtpJobManager.cs" />
-    <Compile Include="FTPExplorer\FtpJobsViewModel.cs" />
-    <Compile Include="FTPExplorer\FtpListingViewItem.cs" />
-    <Compile Include="FTPExplorer\FTPMainPage.xaml.cs">
-      <DependentUpon>FTPMainPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FTPExplorer\History.cs" />
-    <Compile Include="FTPExplorer\FTPMainPage.AddressBar.cs" />
-    <Compile Include="FTPExplorer\FTPMainPage.FilePanel.cs" />
-    <Compile Include="FTPExplorer\OverwriteDialog.xaml.cs">
-      <DependentUpon>OverwriteDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="FTPExplorer\PasswordManager.cs" />
-    <Compile Include="Page\CommunicatePage.xaml.cs">
-      <DependentUpon>CommunicatePage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Page\MainPage.xaml.cs">
+    <Compile Include="FtpJobsViewModel.cs" />
+    <Compile Include="History.cs" />
+    <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="FtpListingViewItem.cs" />
+    <Compile Include="OverwriteDialog.xaml.cs">
+      <DependentUpon>OverwriteDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="PasswordManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Page\TestPage.xaml.cs">
-      <DependentUpon>TestPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Page\RegisterPage.xaml.cs">
-      <DependentUpon>RegisterPage.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Sock.cs" />
-    <Compile Include="Controller\ToastController.xaml.cs">
-      <DependentUpon>ToastController.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="FtpJobManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
       <SubType>Designer</SubType>
     </AppxManifest>
-    <None Include="Intelligent-dormitory-integrated-control-system（PC）_TemporaryKey.pfx" />
+    <None Include="FtpExplorer_StoreKey.pfx" />
+    <None Include="FtpExplorer_TemporaryKey.pfx" />
+    <Compile Include="MainPage.FilePanel.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Assets\image\Miku.jpg" />
     <Content Include="Assets\LargeTile.scale-100.png" />
     <Content Include="Assets\LargeTile.scale-125.png" />
     <Content Include="Assets\LargeTile.scale-150.png" />
@@ -208,9 +165,8 @@
     <Content Include="Assets\Wide310x150Logo.scale-125.png" />
     <Content Include="Assets\Wide310x150Logo.scale-150.png" />
     <Content Include="Assets\Wide310x150Logo.scale-400.png" />
-    <Content Include="FTPExplorer\FtpExplorer.csproj" />
+    <None Include="Package.StoreAssociation.xml" />
     <Content Include="Properties\Default.rd.xml" />
-    <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\Square150x150Logo.scale-200.png" />
     <Content Include="Assets\Square44x44Logo.scale-200.png" />
@@ -222,35 +178,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Page Include="FTPExplorer\DialogContentWithTextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="FTPExplorer\FTPMainPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="FTPExplorer\OverwriteDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Page\CommunicatePage.xaml">
+    <Page Include="DialogContentWithTextBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Page\MainPage.xaml">
+    <Page Include="MainPage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Page\TestPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controller\ToastController.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Page\RegisterPage.xaml">
+    <Page Include="OverwriteDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -260,10 +196,7 @@
       <Version>19.1.2</Version>
     </PackageReference>
     <PackageReference Include="Microsoft.NETCore.UniversalWindowsPlatform">
-      <Version>6.2.7</Version>
-    </PackageReference>
-    <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.2</Version>
+      <Version>6.0.4</Version>
     </PackageReference>
     <PackageReference Include="Zhaobang.ExtendedExecutionHelper">
       <Version>1.0.0</Version>
@@ -271,7 +204,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FtpExplorer.Data\FtpExplorer.Data.csproj">
-      <Project>{23fc0cb4-1bb5-4d97-bffe-5732630f2fdb}</Project>
+      <Project>{c7d7ac5a-c04e-4d9a-9588-fbabb751c0b7}</Project>
       <Name>FtpExplorer.Data</Name>
     </ProjectReference>
   </ItemGroup>

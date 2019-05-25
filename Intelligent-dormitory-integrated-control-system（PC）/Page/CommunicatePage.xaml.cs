@@ -16,6 +16,7 @@ using Windows.UI.Xaml.Navigation;
 using SocketServer;
 using System.Text.RegularExpressions;
 using Windows.UI.Core;
+using FtpExplorer;
 
 namespace Intelligent_dormitory_integrated_control_system_PC_
 {
@@ -81,6 +82,7 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             {
                 SendButton_Click(TextSend, e);
             }
+            
         }
     }
 }
