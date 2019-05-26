@@ -44,6 +44,21 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             _chat_box_tool.Send("http://www.jf258.com/uploads/2013-07-21/073810328.jpg", sock.getuserName(), TextSend.Text, DateTime.Now.ToString());
             TextSend.Text = "";
         }
+
+        private void MenuButton_Click(object sender, RoutedEventArgs e)
+        {
+            MySplitView.IsPaneOpen = !MySplitView.IsPaneOpen;
+        }
+        private void IconsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ShareListBoxItem.IsSelected) {
+
+            }
+            else if (FavoritesListBoxItem.IsSelected) {
+
+            }
+        }
+
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
