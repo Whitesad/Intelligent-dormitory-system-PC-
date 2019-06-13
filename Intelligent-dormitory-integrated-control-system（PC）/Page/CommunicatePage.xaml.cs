@@ -51,10 +51,14 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
         }
         private void IconsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (ShareListBoxItem.IsSelected) {
-
+            if (FTPListBoxItem.IsSelected) {
+                Frame root = Window.Current.Content as Frame;
+                string[] elements = new string[2];
+                elements[0] = this.sock.getFTPUserName();
+                elements[1] = this.sock.getFTPPassWord();
+                root.Navigate(typeof(FTPMainPage),elements);
             }
-            else if (FavoritesListBoxItem.IsSelected) {
+            else if (HomeListBoxItem.IsSelected) {
 
             }
         }
@@ -64,12 +68,11 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             base.OnNavigatedTo(e);
             //这个e.Parameter是获取传递过来的参数，应该再次之前判断这个参数是否为null的，我偷懒了
             this.sock = (Sock)e.Parameter;
-            //sock.SetTextOutput(TextReceiver);
             sock.SetTextOutput(ChatBox);
             sock.start();
         }
 
-        /// <summary>         
+        /// <summary>
         /// 获取Img的路径         
         /// </summary>         
         /// <param name="htmlText">Html字符串文本</param>        

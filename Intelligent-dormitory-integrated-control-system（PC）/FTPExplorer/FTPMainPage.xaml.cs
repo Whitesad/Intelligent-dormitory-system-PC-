@@ -31,6 +31,8 @@ namespace FtpExplorer
     /// </summary>
     public sealed partial class FTPMainPage : Page
     {
+        private string FTPUserName, FTPPassWord;
+
         FluentFTP.FtpClient client;
         ObservableCollection<FtpListItemViewModel> listItemsVM = new ObservableCollection<FtpListItemViewModel>();
 
@@ -83,18 +85,16 @@ namespace FtpExplorer
             Uri address;
             Uri.TryCreate("ftp://" + "10.1.139.101/root/download", UriKind.Absolute, out address);
             await NavigateAsync(address);
-            await LoginAsync("root", "test@bitnp2018");
+            await LoginAsync(this.FTPUserName, this.FTPPassWord);
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (e.Parameter is Uri uri)
-            {
-                await NavigateAsync(uri);
-                if (history.Current != currentAddress)
-                    history.Navigate(currentAddress);
-            }
+            string[] elements = (string[])e.Parameter;
+            this.FTPUserName = elements[0];
+            this.FTPPassWord = elements[1];
+            return;
         }
 
         /// <summary>
@@ -150,16 +150,17 @@ namespace FtpExplorer
                 foreach (var item in (await client.GetListingAsync(remotePath)).OrderBy(x => x.Name))
                     listItemsVM.Add(await FtpListItemViewModel.FromFtpListItemAsync(item));
 
-                using (Data.HistoryContext db = new Data.HistoryContext())
-                {
-                    Data.HistoryEntry h = new Data.HistoryEntry
-                    {
-                        Time = DateTimeOffset.Now,
-                        Url = uriBuilder.Uri.ToString()
-                    };
-                    await db.AddAsync(h);
-                    await db.SaveChangesAsync();
-                }
+                //该注释内容为将ftp记录插入本地数据库中
+                //using (Data.HistoryContext db = new Data.HistoryContext())
+                //{
+                //    Data.HistoryEntry h = new Data.HistoryEntry
+                //    {
+                //        Time = DateTimeOffset.Now,
+                //        Url = uriBuilder.Uri.ToString()
+                //    };
+                //    await db.AddAsync(h);
+                //    await db.SaveChangesAsync();
+                //}
 
                 return true;
             }

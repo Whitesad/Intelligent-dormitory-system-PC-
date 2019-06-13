@@ -39,15 +39,18 @@ namespace FtpExplorer
             if (args.Reason == AutoSuggestionBoxTextChangeReason.SuggestionChosen)
                 return;
             string text = sender.Text;
-            string[] result;
-            using (var db = new Data.HistoryContext())
-            {
-                var query = from Data.HistoryEntry item in db.Histories
-                            where item.Url.Contains(text)
-                            orderby item.Time descending
-                            select item.Url;
-                result = await query.Take(10).Distinct().ToArrayAsync();
-            }
+            string[] result= {"ftp://10.1.139.101/root/download"};
+
+            //该注释代码为查询数据库内的ftp记录
+            //using (var db = new Data.HistoryContext())
+            //{
+            //    var query = from Data.HistoryEntry item in db.Histories
+            //                where item.Url.Contains(text)
+            //                orderby item.Time descending
+            //                select item.Url;
+            //    result = await query.Take(10).Distinct().ToArrayAsync();
+            //}
+
             sender.ItemsSource = result;
         }
 

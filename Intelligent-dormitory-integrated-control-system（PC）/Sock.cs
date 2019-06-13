@@ -112,6 +112,7 @@ namespace SocketServer
 
         private String local_ip, local_name;//本机IP、计算机名
         private string userName, passWord;
+        private string FTPUserName, FTPPassWord;
 
         public string UserInputText;
         private bool isSending = false;
@@ -120,6 +121,14 @@ namespace SocketServer
 
         bool isConnect = false;
 
+        public string getFTPUserName()
+        {
+            return this.FTPUserName;
+        }
+        public string getFTPPassWord()
+        {
+            return this.FTPPassWord;
+        }
         public string getuserName()
         {
             return this.userName;
@@ -205,37 +214,36 @@ namespace SocketServer
             dict RegisterDict = DictMaker.MakeRegisterDict(userName, passWord, local_ip, local_name);
             byte[] dict_bytes = new byte[2048];
             dict dict_dict = new dict();
-            for (int i = 1; i <= 200; i++)
+
+            try
             {
-                
                 Send(RegisterDict);
-                try
+                sockServer.Receive(dict_bytes);
+                dict_dict = DictMaker.MakeDict(dict_bytes);
+                if (dict_dict["type"] == "REGISTER_MES")
                 {
-                    sockServer.Receive(dict_bytes);
-                    dict_dict = DictMaker.MakeDict(dict_bytes);
-                    if (dict_dict["type"] == "REGISTER_MES")
+                    if (dict_dict["status"] == "AC")
                     {
-                        if (dict_dict["status"] == "AC")
-                            return Status.REGISTER_AC;
-                        else if (dict_dict["status"] == "SAME_NAME")
-                        {
-                            return Status.SAME_NAME;
-                        }
-                        else if (dict_dict["status"] == "REGISTER_ERROR")
-                        {
-                            return Status.REGISTER_ERROR;
-                        }
+                        
+                        return Status.REGISTER_AC;
                     }
-                    Thread.Sleep(5);
+                    else if (dict_dict["status"] == "SAME_NAME")
+                    {
+                        return Status.SAME_NAME;
+                    }
+                    else if (dict_dict["status"] == "REGISTER_ERROR")
+                    {
+                        return Status.REGISTER_ERROR;
+                    }
                 }
-                catch
-                {
-                    sockServer.Close();
-                    Toast("Server Connect Error!");
-                    return Status.CONNECT_ERROR;
-                }
-                
             }
+            catch
+            {
+                sockServer.Close();
+                Toast("Server Connect Error!");
+                return Status.CONNECT_ERROR;
+            }
+
             return Status.CONNECT_ERROR;
         }
 
@@ -258,37 +266,39 @@ namespace SocketServer
             dict LoginDict = DictMaker.MakeLoginDict(userName, passWord, local_ip, local_name);
             byte[] dict_bytes = new byte[2048];
             dict dict_dict = new dict();
-            for (int i = 1; i <= 200; i++)
+            
+            try
             {
-                try
+                Send(LoginDict);
+                sockServer.Receive(dict_bytes);
+                dict_dict = DictMaker.MakeDict(dict_bytes);
+                if (dict_dict["type"] == "LOGIN_MES")
                 {
-                    Send(LoginDict);
-                    sockServer.Receive(dict_bytes);
-                    dict_dict = DictMaker.MakeDict(dict_bytes);
-                    if (dict_dict["type"] == "LOGIN_MES")
+                    if (dict_dict["status"] == "AC")
                     {
-                        if (dict_dict["status"] == "AC")
-                            return Status.LOGIN_AC;
-                        else if (dict_dict["status"] == "NO_MEMSHIP")
-                        {
-                            return Status.NO_MEMSHIP;
-                        }
-                        else if (dict_dict["status"] == "WRONG_PASSWORD")
-                        {
-                            return Status.WRONG_PASSWORD;
-                        }
+                        this.FTPPassWord = dict_dict["ftppassword"];
+                        this.FTPUserName = dict_dict["ftpusername"];
+                        return Status.LOGIN_AC;
                     }
-                    Thread.Sleep(5);
+                    else if (dict_dict["status"] == "NO_MEMSHIP")
+                    {
+                        return Status.NO_MEMSHIP;
+                    }
+                    else if (dict_dict["status"] == "WRONG_PASSWORD")
+                    {
+                        return Status.WRONG_PASSWORD;
+                    }
                 }
-                catch
-                {
-                    sockServer.Close();
-                    Toast("Server Connect Error!");
-                    return Status.CONNECT_ERROR;
-
-                }
-                
             }
+            catch
+            {
+                sockServer.Close();
+                Toast("Server Connect Error!");
+                return Status.CONNECT_ERROR;
+
+            }
+                
+            
             
             return Status.CONNECT_ERROR;
         }
@@ -397,6 +407,7 @@ namespace SocketServer
                         Send(DictMaker.MakeTextDict(this.userName, this.UserInputText, this.local_ip, this.local_name));
                         isSending = false;
                     }
+                    Thread.Sleep(1);
                 }
                 catch
                 {
@@ -408,6 +419,7 @@ namespace SocketServer
         {
             Console.WriteLine("Thread Out Error!");
         }
+
     }
     class Program
     {

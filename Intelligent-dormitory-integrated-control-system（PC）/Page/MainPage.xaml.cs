@@ -33,12 +33,15 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
         public MainPage()
         {
             this.InitializeComponent();
-            
+            if (!isInitialed)
+            {
+                InitialHost();
+                isInitialed = true;
+            }
         }
 
         private void InitialHost()
         {
-            return;
             ToastController toastController;
 
             IPAddress[] iPAddresses = Dns.GetHostAddresses(Dns.GetHostName());
@@ -52,6 +55,7 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             }
             toastController = new ToastController("TestHost:" + testHost);
             toastController.Show();
+            return;
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -59,12 +63,7 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             ToastController toastController;
             string userName = UserNameTextBox.Text;
             string passWord = PassWordTextBox.Password;
-
-            if (!isInitialed)
-            {
-                InitialHost();
-                isInitialed = true;
-            }
+            
             Sock sock = new Sock(userName, passWord, testHost, port);
             Status status = Status.NONE;
             status = sock.Login(userName, passWord);
@@ -90,11 +89,8 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
-            if (!isInitialed)
-            {
-                InitialHost();
-                isInitialed = true;
-            }
+            
+            
             Sock sock = new Sock(testHost, port);
 
             Frame root = Window.Current.Content as Frame;
