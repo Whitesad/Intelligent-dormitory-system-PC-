@@ -155,10 +155,16 @@
     <Compile Include="Page\RegisterPage.xaml.cs">
       <DependentUpon>RegisterPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Sock.cs" />
+    <Compile Include="RSADecrypt\RSA.cs" />
+    <Compile Include="RSADecrypt\RSA_PEM.cs" />
+    <Compile Include="RSADecrypt\RSA_Unit.cs" />
+    <Compile Include="Sock\Dict.cs" />
+    <Compile Include="Sock\Program.cs" />
+    <Compile Include="Sock\Sock.cs" />
     <Compile Include="Controller\ToastController.xaml.cs">
       <DependentUpon>ToastController.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Sock\Status.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">
