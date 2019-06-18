@@ -9,6 +9,7 @@ using Windows.UI.Xaml.Controls;
 using Intelligent_dormitory_integrated_control_system_PC_;
 using System.Threading.Tasks;
 
+using RSA;
 namespace SocketServer
 {
     using dict = Dictionary<String, String>;
@@ -21,10 +22,13 @@ namespace SocketServer
         private String hostIp;//目标IP
         private int port;//目标端口
         private Dict DictMaker = new Dict();//字典创造工具
+        private RSA.RSA RsaMaker = new RSA.RSA(1024);
+
 
         private String local_ip, local_name;//本机IP、计算机名
         private string userName, passWord;
-        private string FTPUserName, FTPPassWord;
+        private string FTPUserName, FTPPassWord;//FTP User and Password
+        private string PublicKey;
 
         public string UserInputText;
         private bool isSending = false;
@@ -45,11 +49,13 @@ namespace SocketServer
         {
             return this.userName;
         }
+
         public Sock(string userName, string passWord, String hostIp, int port)
         {
             this.userName = userName;
             this.passWord = passWord;
 
+            this.PublicKey = this.RsaMaker.ToPEM_PKCS1(true);
             this.sockServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             this.local_name = Dns.GetHostName();
             IPAddress[] iPAddresses = Dns.GetHostAddresses(Dns.GetHostName());
@@ -66,6 +72,8 @@ namespace SocketServer
         }
         public Sock()
         {
+            this.PublicKey = this.RsaMaker.ToPEM_PKCS1(true);
+
             this.sockServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             this.local_name = Dns.GetHostName();
             IPAddress[] iPAddresses = Dns.GetHostAddresses(Dns.GetHostName());
@@ -81,6 +89,8 @@ namespace SocketServer
 
         public Sock(string hostIp, int port)
         {
+            this.PublicKey = this.RsaMaker.ToPEM_PKCS1(true);
+
             this.sockServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             this.local_name = Dns.GetHostName();
             IPAddress[] iPAddresses = Dns.GetHostAddresses(Dns.GetHostName());
@@ -174,16 +184,25 @@ namespace SocketServer
                 Toast("Server Connect Failure!");
                 return Status.CONNECT_ERROR;
             }
-            
-            dict LoginDict = DictMaker.MakeLoginDict(userName, passWord, local_ip, local_name);
+            dict LoginRequestDict = DictMaker.MakeLoginRequestDict(this.RsaMaker.ToPEM_PKCS1(true));
             byte[] dict_bytes = new byte[2048];
             dict dict_dict = new dict();
             
             try
             {
+                Send(LoginRequestDict);
+                dict_dict = Recieve();
+
+                if (dict_dict["type"] == "publickey")
+                {
+                    this.DictMaker.SetServerPublicKey(dict_dict["publickey"]);
+                }
+
+                dict LoginDict = DictMaker.MakeLoginDict(userName, passWord, local_ip, local_name);
                 Send(LoginDict);
-                sockServer.Receive(dict_bytes);
-                dict_dict = DictMaker.MakeDict(dict_bytes);
+
+                dict_dict = Recieve();
+
                 if (dict_dict["type"] == "LOGIN_MES")
                 {
                     if (dict_dict["status"] == "AC")
@@ -209,22 +228,33 @@ namespace SocketServer
                 return Status.CONNECT_ERROR;
 
             }
-                
-            
-            
             return Status.CONNECT_ERROR;
         }
+        
+
         private void Send(dict dict_dict)
         {
             byte[] dict_bytes = new byte[2048];
             dict_bytes = DictMaker.MakeBytesDict(dict_dict);
             sockServer.Send(dict_bytes);
         }
+
+        private void DecryptDict(dict dict_mes)
+        {
+            if (dict_mes.ContainsKey("content"))
+                dict_mes["content"] = RsaMaker.DecodeOrNull(dict_mes["content"]);
+            if (dict_mes.ContainsKey("ftpusername"))
+                dict_mes["ftpusername"] = RsaMaker.DecodeOrNull(dict_mes["ftpusername"]);
+            if (dict_mes.ContainsKey("ftppassword"))
+                dict_mes["ftppassword"] = RsaMaker.DecodeOrNull(dict_mes["ftppassword"]);
+        }
         private dict Recieve()//类型待议
         {
             byte[] dict_bytes = new byte[2048];
             sockServer.Receive(dict_bytes);
-            return DictMaker.MakeDict(dict_bytes);
+            dict dict_mes = DictMaker.MakeDict(dict_bytes);
+            DecryptDict(dict_mes);
+            return dict_mes;
         }
         public void start()
         {
@@ -283,10 +313,11 @@ namespace SocketServer
             {
                 try
                 {
-                    byte[] dict_bytes = new byte[2048];
-                    sockServer.Receive(dict_bytes);
-                    // Console.WriteLine("before make");
-                    receive_dict = DictMaker.MakeDict(dict_bytes);
+                    //byte[] dict_bytes = new byte[2048];
+                    //sockServer.Receive(dict_bytes);
+                    //Console.WriteLine("before make");
+                    //receive_dict = DictMaker.MakeDict(dict_bytes);
+                    receive_dict = Recieve();
                     Print(receive_dict);
                     Thread.Sleep(20);
                     //Console.WriteLine("after make");

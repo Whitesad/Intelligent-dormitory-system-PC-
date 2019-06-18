@@ -13,6 +13,17 @@ namespace RSA
     /// </summary>
     public class RSA
     {
+        private string ServerPublicKey;
+        private RSACryptoServiceProvider ServerRSA;
+        /// <summary>
+        /// 设定服务器器的公钥
+        /// </summary>
+        public void SetServerPublicKey(string publickey)
+        {
+            this.ServerPublicKey = publickey;
+            this.ServerRSA = RSA_PEM.FromPEM(this.ServerPublicKey);
+        }
+
         /// <summary>
         /// 导出XML格式密钥对，如果convertToPublic含私钥的RSA将只返回公钥，仅含公钥的RSA不受影响
         /// </summary>
@@ -41,14 +52,14 @@ namespace RSA
         /// <summary>
         /// 加密字符串（utf-8），出错抛异常
         /// </summary>
-        public string Encode(string str)
+        public string EncodeByLocal(string str)
         {
-            return RSA_Unit.Base64EncodeBytes(Encode(Encoding.UTF8.GetBytes(str)));
+            return RSA_Unit.Base64EncodeBytes(EncodeByLocal(Encoding.UTF8.GetBytes(str)));
         }
         /// <summary>
         /// 加密数据，出错抛异常
         /// </summary>
-        public byte[] Encode(byte[] data)
+        public byte[] EncodeByLocal(byte[] data)
         {
             int blockLen = rsa.KeySize / 8 - 11;
             if (data.Length <= blockLen)
@@ -76,6 +87,19 @@ namespace RSA
                 return enStream.ToArray();
             }
         }
+
+        /// <summary>
+        /// 使用服务器公钥加密数据
+        /// </summary>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        public string EncodeByServer(string content)
+        {
+            byte[] cipherbytes;
+            cipherbytes = this.ServerRSA.Encrypt(Encoding.UTF8.GetBytes(content), false);
+            return Convert.ToBase64String(cipherbytes);
+        }
+
         /// <summary>
         /// 解密字符串（utf-8），解密异常返回null
         /// </summary>

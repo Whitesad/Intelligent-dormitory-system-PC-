@@ -164,7 +164,7 @@
     <Compile Include="Controller\ToastController.xaml.cs">
       <DependentUpon>ToastController.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Sock\Status.cs" />
+    <Compile Include="Sock\Enum.cs" />
   </ItemGroup>
   <ItemGroup>
     <AppxManifest Include="Package.appxmanifest">

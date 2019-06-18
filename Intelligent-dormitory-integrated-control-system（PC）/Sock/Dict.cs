@@ -2,7 +2,7 @@
 using System.Text;
 using System.Collections.Generic;
 using Newtonsoft.Json;
-
+using System.Security.Cryptography;
 
 namespace SocketServer
 {
@@ -10,6 +10,30 @@ namespace SocketServer
 
     class Dict
     {
+        private RSACryptoServiceProvider RsaDecrypter;
+        /// <summary>
+        /// 设置服务端的公钥
+        /// </summary>
+        /// <param name="publickey"></param>
+        public void SetServerPublicKey(string publickey)
+        {
+            this.RsaDecrypter = RSA.RSA_PEM.FromPEM(publickey);
+        }
+        private string Decrypt(string content)
+        {
+            byte[] cipherbytes;
+            cipherbytes = this.RsaDecrypter.Encrypt(Encoding.UTF8.GetBytes(content), false);
+            return Convert.ToBase64String(cipherbytes);
+        }
+
+        public dict MakeLoginRequestDict(string publickey)
+        {
+            dict requestDict = new dict();
+            publickey = publickey.Replace('\n', '*');
+            requestDict.Add("type", "LOGIN_REQUEST");
+            requestDict.Add("publickey", publickey);
+            return requestDict;
+        }
         public dict MakeRegisterDict(String userName, String password, String local_ip, String local_name)
         {
             dict RegisterDict = new dict();
@@ -24,22 +48,22 @@ namespace SocketServer
         public dict MakeLoginDict(String userName, String password, String local_ip, String local_name)
         {
             dict LoginDict = new dict();
-            LoginDict.Add("username", userName);
+            LoginDict.Add("username", Decrypt(userName));
+            LoginDict.Add("password", Decrypt(password));
             LoginDict.Add("type", "LOGIN_MES");
             LoginDict.Add("status", "login");
             LoginDict.Add("ip", local_ip);
             LoginDict.Add("localname", local_name);
-            LoginDict.Add("password", password);
             return LoginDict;
         }
         public dict MakeTextDict(string userName, string content, string local_ip, string local_name)
         {
             dict TextDict = new dict();
             TextDict.Add("type", "TEXT_MES");
-            TextDict.Add("content", content);
+            TextDict.Add("username", Decrypt(userName));
+            TextDict.Add("content", Decrypt(content));
             TextDict.Add("ip", local_ip);
             TextDict.Add("localname", local_name);
-            TextDict.Add("username", userName);
             return TextDict;
         }
         public byte[] MakeBytesDict(dict dict_dict)
