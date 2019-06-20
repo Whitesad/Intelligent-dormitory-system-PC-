@@ -45,10 +45,58 @@
                     </ListBoxItem>
 
                     <ListBoxItem Name="HomeListBoxItem">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="36" Text="&#xE10F;" />
-                            <TextBlock Text="Home" FontSize="24" Margin="20,0,0,0" />
-                        </StackPanel>
+                            <StackPanel Orientation="Vertical">
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="36" Text="&#xE17b;" />
+                                    <TextBlock Text="Fridge" FontSize="24" Margin="20,0,0,0" />
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Text="  Current Tem:"
+                                        FontSize="32"
+                                        />
+                                    <TextBlock
+                                        x:Name="CurrentTemText"
+                                        Margin="20,0,0,0"
+                                        Text="10"
+                                        FontSize="32"
+                                        />
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        Text="C"
+                                        FontSize="32"
+                                        />
+                                    <Button Click="UpTem_Click" Margin="10,0,0,0" Width="50">
+                                        <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="24" Text="&#xE117;" />
+                                    </Button>
+                                </StackPanel>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock
+                                        Text="  Target   Tem:"
+                                        FontSize="32"
+                                        />
+                                    <TextBlock
+                                        x:Name="TargetTemText"
+                                        Margin="20,0,0,0"
+                                        Text="10"
+                                        FontSize="32"
+                                        />
+                                    <TextBlock
+                                        Margin="5,0,0,0"
+                                        Text="C"
+                                        FontSize="32"
+                                        />
+                                    <StackPanel Orientation="Vertical" Margin="10,0,0,0">
+                                        <Button Click="UpTem_Click" Width="50">
+                                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16" Text="&#xE96D;" />
+                                        </Button>
+                                        <Button Click="CutTem_Click" Width="50">
+                                            <TextBlock FontFamily="Segoe MDL2 Assets" FontSize="16" Text="&#xE96E;" />
+                                        </Button>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        
                     </ListBoxItem>
 
                 </ListBox>

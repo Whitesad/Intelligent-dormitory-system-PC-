@@ -62,6 +62,17 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
 
             }
         }
+        private void UpTem_Click(object sender, RoutedEventArgs e)
+        {
+            int targetTem = int.Parse(TargetTemText.Text);
+            TargetTemText.Text = ((targetTem + 1).ToString());
+        }
+        private void CutTem_Click(object sender, RoutedEventArgs e)
+        {
+            int targetTem = int.Parse(TargetTemText.Text);
+            TargetTemText.Text = ((targetTem - 1).ToString());
+        }
+
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
         {
