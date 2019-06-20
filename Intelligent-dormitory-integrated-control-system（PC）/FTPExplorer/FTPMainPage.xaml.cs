@@ -22,7 +22,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using Intelligent_dormitory_integrated_control_system_PC_;
-// https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x804 上介绍了“空白页”项模板
+using Intelligent_dormitory_integrated_control_system_PC_.ConstantVariable;
 
 namespace FtpExplorer
 {
@@ -54,6 +54,9 @@ namespace FtpExplorer
         public FTPMainPage()
         {
             this.InitializeComponent();
+
+            this.FTPUserName = ConstantVariable.FTPUsername;
+            this.FTPPassWord = ConstantVariable.FTPPassword;
 
             System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
             preferredEncoding = System.Text.Encoding.GetEncoding("GBK");
@@ -87,16 +90,7 @@ namespace FtpExplorer
             await NavigateAsync(address);
             await LoginAsync(this.FTPUserName, this.FTPPassWord);
         }
-
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            string[] elements = (string[])e.Parameter;
-            this.FTPUserName = elements[0];
-            this.FTPPassWord = elements[1];
-            return;
-        }
-
+        
         /// <summary>
         /// 导航到指定的地址。需要登录时自动弹出登录界面。导航失败时，自动导航到失败页面。
         /// 不抛出异常。

@@ -103,15 +103,21 @@
                 TextChanged="AddressBox_TextChanged"/>
             <StackPanel Grid.Column="2" Orientation="Horizontal">
                 <Button
+                    x:Name="backHomeButton"
+                    Click="BackHomeButton_Click"
+                    Style="{StaticResource NavigationBackButtonNormalStyle}"
+                    Content="&#xE1A6;" FontFamily="Segoe MDL2 Assets"
+                    FontSize="20"
+                    >
+                    <!--<SymbolIcon Symbol="Home" />-->
+                </Button>
+                <Button
                     x:Name="refreshButton"
                     Click="RefreshButton_Click"
                     Style="{StaticResource NavigationBackButtonNormalStyle}"
                     Content="&#xE117;" FontFamily="Segoe MDL2 Assets"
                     >
                     <!--<SymbolIcon Symbol="Refresh" />-->
-
-
-
                 </Button>
                 <Button x:Name="loginButton" Style="{StaticResource NavigationBackButtonNormalStyle}"
                         Content="&#xE13D;" FontFamily="Segoe MDL2 Assets"

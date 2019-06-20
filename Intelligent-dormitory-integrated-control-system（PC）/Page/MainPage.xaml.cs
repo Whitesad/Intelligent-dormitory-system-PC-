@@ -69,9 +69,11 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
             status = sock.Login(userName, passWord);
             if (status == Status.LOGIN_AC)
             {
+                //储存到全局变量中
+                ConstantVariable.ConstantVariable.sock = sock;
                 Frame root = Window.Current.Content as Frame;
-                root.Navigate(typeof(CommunicatePage),sock);
-                
+                //root.Navigate(typeof(CommunicatePage),sock);
+                root.Navigate(typeof(CommunicatePage));
                 //sock.start();
             }
             else if (status == Status.WRONG_PASSWORD)

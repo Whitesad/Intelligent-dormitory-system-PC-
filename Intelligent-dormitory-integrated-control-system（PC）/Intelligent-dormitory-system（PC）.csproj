@@ -126,6 +126,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="ChatBoxTool.cs" />
+    <Compile Include="ConstantVariable\ConstantVariable.cs" />
     <Compile Include="FTPExplorer\DialogContentWithTextBox.xaml.cs">
       <DependentUpon>DialogContentWithTextBox.xaml</DependentUpon>
     </Compile>

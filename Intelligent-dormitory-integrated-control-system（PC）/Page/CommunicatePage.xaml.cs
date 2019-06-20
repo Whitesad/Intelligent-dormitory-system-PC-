@@ -29,11 +29,23 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
         Sock sock;
         ChatBoxTool _chat_box_tool;
 
+
+        //protected override async void OnNavigatedTo(NavigationEventArgs e)
+        //{
+        //    base.OnNavigatedTo(e);
+        //    this.sock = (Sock)e.Parameter;
+        //    sock.SetTextOutput(ChatBox);
+        //    sock.start();
+        //}
         public CommunicatePage()
         {
             this.InitializeComponent();
             _chat_box_tool = new ChatBoxTool(ChatBox);
             //ChatBox.ScriptNotify += ChatBox_ScriptNotify; //js 与 C#通信
+
+            this.sock = ConstantVariable.ConstantVariable.sock;
+            this.sock.SetTextOutput(ChatBox);
+            this.sock.start();
         }
         private void SendButton_Click(object sender, RoutedEventArgs e)
         {
@@ -52,11 +64,13 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
         private void IconsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (FTPListBoxItem.IsSelected) {
+                //Frame root = Window.Current.Content as Frame;
+                //string[] elements = new string[2];
+                //elements[0] = this.sock.getFTPUserName();
+                //elements[1] = this.sock.getFTPPassWord();
+                //root.Navigate(typeof(FTPMainPage),elements);
                 Frame root = Window.Current.Content as Frame;
-                string[] elements = new string[2];
-                elements[0] = this.sock.getFTPUserName();
-                elements[1] = this.sock.getFTPPassWord();
-                root.Navigate(typeof(FTPMainPage),elements);
+                root.Navigate(typeof(FTPMainPage));
             }
             else if (HomeListBoxItem.IsSelected) {
 
@@ -74,14 +88,7 @@ namespace Intelligent_dormitory_integrated_control_system_PC_
         }
 
 
-        protected override async void OnNavigatedTo(NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            //这个e.Parameter是获取传递过来的参数，应该再次之前判断这个参数是否为null的，我偷懒了
-            this.sock = (Sock)e.Parameter;
-            sock.SetTextOutput(ChatBox);
-            sock.start();
-        }
+        
 
         /// <summary>
         /// 获取Img的路径         

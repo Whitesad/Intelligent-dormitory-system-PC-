@@ -9,6 +9,7 @@ using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Input;
+using Intelligent_dormitory_integrated_control_system_PC_;
 
 namespace FtpExplorer
 {
@@ -52,6 +53,12 @@ namespace FtpExplorer
             //}
 
             sender.ItemsSource = result;
+        }
+
+        private void BackHomeButton_Click(object sender, RoutedEventArgs e)
+        {
+            Frame root = Window.Current.Content as Frame;
+            root.Navigate(typeof(CommunicatePage));
         }
 
         private async void RefreshButton_Click(object sender, RoutedEventArgs e)

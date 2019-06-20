@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using Windows.UI.Xaml.Controls;
 
 using Intelligent_dormitory_integrated_control_system_PC_;
+using Intelligent_dormitory_integrated_control_system_PC_.ConstantVariable;
 using System.Threading.Tasks;
 
 using RSA;
@@ -27,7 +28,6 @@ namespace SocketServer
 
         private String local_ip, local_name;//本机IP、计算机名
         private string userName, passWord;
-        private string FTPUserName, FTPPassWord;//FTP User and Password
         private string PublicKey;
 
         public string UserInputText;
@@ -36,15 +36,7 @@ namespace SocketServer
         private ChatBoxTool _chat_box_tool;
 
         bool isConnect = false;
-
-        public string getFTPUserName()
-        {
-            return this.FTPUserName;
-        }
-        public string getFTPPassWord()
-        {
-            return this.FTPPassWord;
-        }
+        
         public string getuserName()
         {
             return this.userName;
@@ -207,8 +199,8 @@ namespace SocketServer
                 {
                     if (dict_dict["status"] == "AC")
                     {
-                        this.FTPPassWord = dict_dict["ftppassword"];
-                        this.FTPUserName = dict_dict["ftpusername"];
+                        ConstantVariable.FTPUsername = dict_dict["ftpusername"];
+                        ConstantVariable.FTPPassword = dict_dict["ftppassword"];
                         return Status.LOGIN_AC;
                     }
                     else if (dict_dict["status"] == "NO_MEMSHIP")
