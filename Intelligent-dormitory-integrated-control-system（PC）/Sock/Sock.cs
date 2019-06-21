@@ -168,7 +168,7 @@ namespace SocketServer
             try
             {
                 sockServer.Connect(hostIp, port);
-                Toast("Successfully Connect the Server:\n" + this.hostIp);
+                //Toast("Successfully Connect the Server:\n" + this.hostIp);
             }
             catch
             {
@@ -277,13 +277,21 @@ namespace SocketServer
                     Out += (dict_dict["localname"] + " " + dict_dict["username"] + " " + dict_dict["time"] + "\n");
                     Out += (dict_dict["content"] + "\n");
 
-                    this.Invoke(() =>
+                    if (dict_dict["username"] != this.userName)
                     {
-                        this._chat_box_tool.Receive("http://www.jf258.com/uploads/2013-07-21/073810328.jpg", dict_dict["username"], dict_dict["content"], dict_dict["time"]);
-                    });
-                    //this.TextOutput.Text += (dict_dict["localname"] + " " + dict_dict["username"] + " " + dict_dict["time"]+"\n");
-                    //this.TextOutput.Text += (dict_dict["content"]+"\n");
-
+                        this.Invoke(() =>
+                        {
+                            this._chat_box_tool.Receive("http://www.jf258.com/uploads/2013-07-21/073810328.jpg", dict_dict["username"], dict_dict["content"], dict_dict["time"]);
+                        });
+                        //this.TextOutput.Text += (dict_dict["localname"] + " " + dict_dict["username"] + " " + dict_dict["time"]+"\n");
+                        //this.TextOutput.Text += (dict_dict["content"]+"\n");
+                    }else if((dict_dict["username"] == this.userName && dict_dict["localname"] != this.local_name))
+                    {
+                        this.Invoke(() =>
+                        {
+                            this._chat_box_tool.Send("http://www.jf258.com/uploads/2013-07-21/073810328.jpg", dict_dict["username"], dict_dict["content"], dict_dict["time"]);
+                        });
+                    }
                 }
             }
         }

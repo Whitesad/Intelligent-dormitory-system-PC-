@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Package xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10" xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest" xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10" IgnorableNamespaces="uap mp">
-  <Identity Name="ff865ec7-5c0b-45bc-b184-f9b976d993c2" Publisher="CN=whitesad" Version="0.1.5.0" />
+  <Identity Name="ff865ec7-5c0b-45bc-b184-f9b976d993c2" Publisher="CN=whitesad" Version="0.9.0.0" />
   <mp:PhoneIdentity PhoneProductId="ff865ec7-5c0b-45bc-b184-f9b976d993c2" PhonePublisherId="00000000-0000-0000-0000-000000000000" />
   <Properties>
     <DisplayName>Intelligent-dormitory-integrated-control-system（PC）</DisplayName>
